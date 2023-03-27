@@ -1,0 +1,41 @@
+--Create table for store
+CREATE TABLE store (ID INTEGER PRIMARY KEY, Item TEXT, Price REAL, Department TEXT, Stock TEXT)
+;
+
+--Insert data
+INSERT INTO store VALUES
+(1, 'Blouse', 23.00, 'Womens', 'Yes'),
+(2, 'Pants', 40.00, 'Mens', 'Yes'),
+(3, 'Sweater', 55.00, 'Mens', 'No'),
+(4, 'Socks', 12.00, 'Mens', 'No'),
+(5, 'Blouse', 23.00, 'Womens', 'Yes'),
+(6, 'Blouse', 23.00, 'Womens', 'Yes'),
+(7, 'Blouse', 23.00, 'Womens', 'Yes'),
+(8, 'Pants', 40.00, 'Mens', 'Yes'),
+(9, 'Pants', 40.00, 'Mens', 'Yes'),
+(10, 'Pants', 40.00, 'Mens', 'Yes'),
+(11, 'Socks', 12.00, 'Mens', 'No'),
+(12, 'Sweater', 55.00, 'Mens', 'No'),
+(13, 'Sweater', 55.00, 'Mens', 'No'),
+(14, 'Sweater', 55.00, 'Mens', 'No'),
+(15, 'Socks', 12.00, 'Mens', 'No')
+;
+
+--Display the database ordered by price
+SELECT * FROM store
+ORDER BY price desc
+;
+
+--What is the avg price of items in the Womens department? 
+SELECT AVG(Price) 'Avg Womens Item'
+FROM store
+WHERE department='Womens'
+;
+
+--List 5 items that are not in stock in the Mens department
+SELECT id, item, price
+FROM store
+WHERE department='Mens' and stock='No'
+LIMIT 5
+; 
+
