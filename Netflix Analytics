@@ -33,7 +33,7 @@ LIMIT 2
 ;
 
 
--- alternative 
+-- alternative using subquery
 SELECT title, release_year 
 FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
 WHERE type = 'Movie'
