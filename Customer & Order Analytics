@@ -1,0 +1,64 @@
+-- In this SQL code, I am querying a database with multiple tables in it to quantify statistics about customer and order data.
+
+
+SELECT *
+FROM BIT_DB.JanSales;
+
+SELECT *
+FROM BIT_DB.FebSales;
+
+-- 1. How many orders were placed in January? Keep in mind that we need to filter blanks and incorrect order IDs
+SELECT COUNT(orderid) 
+FROM BIT_DB.JanSales
+WHERE LENGTH(orderid) = 6
+AND orderid <> 'OrderID';
+
+-- 2. How man of these order were for an iPhone? Filter blanks and incorrect data
+SELECT COUNT(product)
+FROM BIT_DB.JanSales
+WHERE product = 'iPhone';
+
+-- Alternative
+SELECT COUNT(orderid)
+FROM BIT_DB.JanSales
+WHERE Product = 'iPhone'
+AND LENGTH(orderid) = 6
+AND orderid <> 'Order ID';
+
+-- 3. Select the customer account numbers for all the orders that were placed in February. Remeber some order numbers are repeated.
+SELECT DISTINCT acctnum
+FROM BIT_DB.customers c
+INNER JOIN BIT_DB.FebSales f
+ON c.order_id = f.orderid
+WHERE LENGTH(orderid) = 6
+AND orderid <> 'Order ID';
+
+-- 4. Which product was the cheapest one sold in January, and what was the price?
+SELECT DISTINCT Product, Price
+FROM BIT_DB.JanSales
+WHERE price IN (SELECT MIN(price) FROM BIT_DB.JanSales);
+
+--5. What is the total revenue for each product sold in January?
+SELECT SUM(quantity)*price AS Revenue, Product
+FROM BIT_DB.JanSales
+GROUP BY product
+;
+
+-- 6. Which products were sold in Feb at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+SELECT SUM(Quantity), Product, SUM(QuantitY)*price AS Revenue
+FROM BIT_DB.FebSales
+WHERE location = '548 Lincoln St,Seattle,WA 98101'
+GROUP BY product
+;
+
+-- 7. How many customers ordered more than 2 products at a time in Feb,  and what was the average amont spent for those customers?
+SELECT COUNT(DISTINCT c.acctnum),
+AVG(quantity*price)
+FROM BIT_DB.FebSales f
+LEFT JOIN BIT_DB.customers c
+ON f.orderID = c.order_id
+WHERE f.quantity > 2
+AND LENGTH(orderid) = 6
+AND orderid <> 'Order ID'
+;
+
